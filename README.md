@@ -1,2 +1,0 @@
-# TP-ELASTIC
-Premier TP ELASTIC
