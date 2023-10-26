@@ -1,12 +1,12 @@
 ## ONAY Ilker RT3
 
-### A vous de jouez !
+### 1/ A vous de jouez !
 
 <br>
 On peut observer que j'ai un GETS de /vets.html mais par la suite j'obtiens un 301 qui redirige vers http://localhost:8081/ qui est le lien par "défault"
 <br>
 
-![logs](logs.png)
+![logs](./image/logs.png)
 
 <br>
 Je vérifie mon fichier de configuration dans /elastic-platform/app/conf/default.conf :
@@ -72,11 +72,81 @@ location = /owners/find {
           return 301 /#$uri;
 ```
 
+Une fois le hashtag et slash enlever du fichier configuration on peut observer que celui-ci renvoie vers le bon lien.
+
+![image](./image/fonctionne.png)
 
 <br>
 
+### 2/ A vous de jouez !
+
+<br>
+<ins>Par défault on nous donne ceci : </ins>
+<br>
+
+ ```
+POST /_security/role/read_observability
+{
+  "cluster": [],
+  "indices": [
+    {
+      "names": [
+        "metricbeat-*",
+        "filebeat-*",
+        "traces-apm*,apm-*,logs-apm*,apm-*,metrics-apm*,apm-*"
+      ],
+      "privileges": [
+        "read"
+      ],
+      "allow_restricted_indices": false
+    }
+  ],
+  "applications": [
+    {
+      "application": "kibana-.kibana",
+      "privileges": [
+        "feature_logs.read",
+        "feature_infrastructure.read",
+        "feature_apm.read",
+        "feature_uptime.read",
+        "feature_observabilityCases.read"
+      ],
+      "resources": [
+        "space:default"
+      ]
+    }
+  ],
+  "run_as": [],
+  "metadata": {},
+  "transient_metadata": {
+    "enabled": true
+  }
+}
+ ```
 
 
-Une fois le hashtag et slash enlever du fichier configuration on peut observer que celui-ci renvoie vers le bon lien.
+<br>
+<br>
+Ici on peut observer dans le rôles attribuer qu'on ne respecte pas le fait de lister les droits , donc la personne à qui ont attribuera n'auras pas accès.
 
-![image](fonctionne.png)
+Corrigeons celà :
+
+```
+  "indices": [
+    {
+      "names": [
+        "metricbeat-*",
+        "filebeat-*",
+        "traces-apm*",
+        "apm-*",
+        "logs-apm*",
+        "apm-*",
+        "metrics-apm*",
+        "apm-*"
+      ],
+```
+
+<br>
+
+![image](./image/fonctionne2.png)
+
