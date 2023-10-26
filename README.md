@@ -156,4 +156,120 @@ Corrigeons celà :
 
 ### 3/ A vous de jouez !
 
+Dans cette partie on observe le rôle suivants qui n'arrive pas a crée un "my-index-observability" :
+
+```
+
+POST /_security/role/admin_observability
+{
+  "cluster": [
+    "create_snapshot",
+    "manage_ccr",
+    "manage_ilm",
+    "manage_saml",
+    "manage_watcher",
+    "monitor",
+    "read_ilm"
+  ],
+  "indices": [
+    {
+      "names": [
+        "metricbeat-*",
+        "filebeat-*",
+        "traces-apm*,apm-*,logs-apm*,apm-*,metrics-apm*,apm-*"
+      ],
+      "privileges": [
+        "read",
+        "monitor",
+        "create",
+        "write",
+        "delete",
+        "delete_index"
+      ],
+      "allow_restricted_indices": false
+    }
+  ],
+  "applications": [
+    {
+      "application": "kibana-.kibana",
+      "privileges": [
+        "feature_logs.all",
+        "feature_infrastructure.all",
+        "feature_apm.all",
+        "feature_uptime.all",
+        "feature_observabilityCases.all",
+        "feature_dev_tools.all",
+        "feature_indexPatterns.read"
+      ],
+      "resources": [
+        "space:default"
+      ]
+    }
+  ],
+  "run_as": [],
+  "metadata": {},
+  "transient_metadata": {
+    "enabled": true
+  }
+}
+
+
+```
+
+<br>
+
+
+On va alors observer l'erreur que nous renvoie quand on essaye de crée le "my-index" :
+
+<br> 
+<br>
+
+![image](./image/error.png)
+
+<br>
+
+On peut observer qu'il nous propose d'ajouter certain-rôle (create_index,manage,all), alors je me renseigne sur les rôles en questions de puis la documentation : 
+https://www.elastic.co/guide/en/elasticsearch/reference/8.10/security-privileges.html#privileges-list-indices
+
+On peut observer qu'il sert à crée justement des index
+
+<ins>Maintenant on va modifier le rôle :</ins>
+
+On va lui ajouter donc le privilèges "create_index"
+
+```
+      ],
+      "privileges": [
+        "read",
+        "monitor",
+        "create",
+        "write",
+        "delete",
+        "delete_index",
+        "create_index"
+      ],
+
+```
+
+<br> Mais ça ne suffit pas il faut aussi lui ajouter dans les names l'accès au index qu'on va crée car pour pouvoir crée elastic demande à l'utilisateur d'avoir l'accès au fichier pour des questions de sécurité et au passage on peut obsver qu'on à le même 
+<br>
+
+```
+ "names": [
+        "metricbeat-*",
+        "filebeat-*",
+        "traces-apm*",
+        "apm-*",
+        "logs-apm*",
+        "apm-*",
+        "metrics-apm*",
+        "apm-*",
+        "my-index"
+      ],
+```
+
+On peut observer le bon fonctionnement : <br> <br>
+
+![image](./image/fonctionne3.png)
+
 
