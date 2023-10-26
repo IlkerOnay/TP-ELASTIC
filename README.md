@@ -150,3 +150,10 @@ Corrigeons celà :
 
 ![image](./image/fonctionne2.png)
 
+
+<br> 
+<br> 
+
+### 3/ A vous de jouez !
+
+
