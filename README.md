@@ -228,14 +228,14 @@ On va alors observer l'erreur que nous renvoie quand on essaye de crée le "my-i
 
 <br>
 
-On peut observer qu'il nous propose d'ajouter certain-rôle (create_index,manage,all), alors je me renseigne sur les rôles en questions de puis la documentation : 
+On peut observer qu'il nous propose d'ajouter certains rôles (create_index,manage,all), alors je me renseigne sur les rôles en questions depuis la documentation : 
 https://www.elastic.co/guide/en/elasticsearch/reference/8.10/security-privileges.html#privileges-list-indices
 
-On peut observer qu'il sert à crée justement des index
+On peut observer que le rôle create_index sert à crée justement des index.
 
 <ins>Maintenant on va modifier le rôle :</ins>
 
-On va lui ajouter donc le privilèges "create_index"
+On va lui ajouter donc le privilège "create_index"
 
 ```
       ],
@@ -251,7 +251,7 @@ On va lui ajouter donc le privilèges "create_index"
 
 ```
 
-<br> Mais ça ne suffit pas il faut aussi lui ajouter dans les names l'accès au index qu'on va crée car pour pouvoir crée elastic demande à l'utilisateur d'avoir l'accès au fichier pour des questions de sécurité et au passage on peut obsver qu'on à le même 
+<br> Mais ça ne suffit pas il faut aussi lui ajouter dans les names l'accès au index qu'on va crée, car pour pouvoir crée, elastic demande à l'utilisateur d'avoir l'accès au fichier qu'il veut crée pour des questions de sécurité.
 <br>
 
 ```
